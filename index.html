@@ -27,6 +27,11 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
 	<link rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" />
+	<!-- icon style -->
+	<link rel="stylesheet" href="https://unpkg.com/ion-rangeslider@2.2.0/css/ion.rangeSlider.css" />
+	<link rel="stylesheet" href="https://unpkg.com/ion-rangeslider@2.2.0/css/ion.rangeSlider.skinNice.css" />
+	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+
 
 
 	<!-- rangeSlider - stefano cudinii y open -->
@@ -69,6 +74,8 @@
 		<script src="js/bundle.js"></script>
 		<script src="js/bundle.js.map"></script>
 	
+	<!-- boton para visualization de imagnes -->
+	<script src="js/bottonmodal_img.js"></script>
 
 
 	<!-- en la Carpeta DATA estan los js como capas-->
@@ -92,6 +99,7 @@
 	<script type="text/javascript" src="data/fao/pto_agri.js"></script>
 	<script type="text/javascript" src="data/fao/areaprotegidas_s.js"></script>
 	<script type="text/javascript" src="data/fao/isohietas_noa.js"></script>
+	<script type="text/javascript" src="data/fao/pto_MODELOS_COSECHA.js"></script>
 
 	<!-- <script type="text/javascript" src="js/ppmtemp.js"></script> -->
 	<script type="text/javascript" src="js/mapa.js"></script>
@@ -108,99 +116,103 @@
 
 		#map {
 			width: 100%;
-			height: 100%;
+			height: 100vh;
 			box-shadow: 5px 5px 5px #888;
 			position: relative;
-            z-index: 1; /* El mapa estará detrás del menú */
+			z-index: 1;
+			/* El mapa estará detrás del menú */
 		}
 
-  
-  /* Encabezado */
-  .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 30px;
-            border-bottom: 1px solid #e0e0e0;
-            background-color: #ffffff;
+
+		/* Encabezado */
+		.header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 15px 30px;
+			border-bottom: 1px solid #e0e0e0;
+			background-color: #ffffff;
 			position: relative;
-			z-index: 10; /* Asegura que el encabezado esté sobre el mapa */
-        }
+			z-index: 10;
+			/* Asegura que el encabezado esté sobre el mapa */
+		}
 
-        /* Logo */
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: black;
-            text-decoration: none;
-        }
+		/* Logo */
+		.logo {
+			display: flex;
+			align-items: center;
+			font-size: 1.5rem;
+			font-weight: bold;
+			color: black;
+			text-decoration: none;
+		}
 
-        .logo img {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-        }
+		.logo img {
+			width: 24px;
+			height: 24px;
+			margin-right: 10px;
+		}
 
-        .logo span {
-            color: #1e73e8; /* Color del icono */
-        }
+		.logo span {
+			color: #1e73e8;
+			/* Color del icono */
+		}
 
-        /* Navegación */
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            
-        }
+		/* Navegación */
+		.nav-links {
+			display: flex;
+			gap: 20px;
 
-        .nav-links a {
-            color: black;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            position: relative;
-        }
+		}
 
-        .nav-links a:hover {
-            color: #1e73e8;
-        }
+		.nav-links a {
+			color: black;
+			text-decoration: none;
+			font-weight: 500;
+			font-size: 0.9rem;
+			position: relative;
+		}
 
-        /* Submenú para NOA */
-        .dropdown {
-            position: relative;
-        }
+		.nav-links a:hover {
+			color: #1e73e8;
+		}
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: #ffffff;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-			z-index: 20; /* Asegura que el submenú esté sobre el mapa */
-            padding: 10px 0;
-            min-width: 160px;
-        }
+		/* Submenú para NOA */
+		.dropdown {
+			position: relative;
+		}
 
-        .dropdown-content a {
-            color: black;
-            padding: 10px 20px;
-            text-decoration: none;
-            display: block;
-        }
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 0;
+			background-color: #ffffff;
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+			z-index: 20;
+			/* Asegura que el submenú esté sobre el mapa */
+			padding: 10px 0;
+			min-width: 160px;
+		}
 
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-            color: #1e73e8;
-        }
+		.dropdown-content a {
+			color: black;
+			padding: 10px 20px;
+			text-decoration: none;
+			display: block;
+		}
 
-        /* Muestra el submenú al pasar el cursor */
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+		.dropdown-content a:hover {
+			background-color: #f1f1f1;
+			color: #1e73e8;
+		}
 
-         /* estilos del mapa*/
+		/* Muestra el submenú al pasar el cursor */
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+
+		/* estilos del mapa*/
 
 		.legend {
 			padding: 15px 9px;
@@ -284,32 +296,7 @@
 			background-size: 26px 26px;
 		}
 
-		.leaflet-container:-ms-fullscreen {
-			width: 100% !important;
-			height: 100% !important;
-			z-index: 99999;
-		}
 
-		.leaflet-container:full-screen {
-			width: 100% !important;
-			height: 100% !important;
-			z-index: 99999;
-		}
-
-		.leaflet-container:fullscreen {
-			width: 100% !important;
-			height: 100% !important;
-			z-index: 99999;
-		}
-
-		.leaflet-pseudo-fullscreen {
-			position: fixed !important;
-			width: 100% !important;
-			height: 100% !important;
-			top: 0px !important;
-			left: 0px !important;
-			z-index: 99999;
-		}
 
 		/* Estilos para los elementos de la leyenda */
 		.legend-item {
@@ -337,8 +324,58 @@
 			border-radius: 2px;
 			cursor: pointer;
 		}
-	</style>
 
+		/* estilo de icono */
+		.awesome-marker i {
+			font-size: 18px;
+			margin-top: 8px;
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+		}
+
+		.custom-marker-gsi {
+			background-color: lightgray;
+			/* Fondo gris */
+			border-radius: 10%;
+			/* Fondo redondeado */
+			width: 40px;
+			/* Ancho del fondo */
+			height: 40px;
+			/* Alto del fondo */
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.custom-marker-gsi img {
+			width: 35px;
+			/* Ancho del SVG */
+			height: 35px;
+			/* Alto del SVG */
+		}
+
+		.custom-marker-green {
+			background-color: rgb(177, 214, 170);
+			/* Fondo gris */
+			border-radius: 10%;
+			/* Fondo redondeado */
+			width: 40px;
+			/* Ancho del fondo */
+			height: 40px;
+			/* Alto del fondo */
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.custom-marker-green img {
+			width: 35px;
+			/* Ancho del SVG */
+			height: 35px;
+			/* Alto del SVG */
+		}
+	</style>
 </head>
 
 <body>
@@ -387,22 +424,6 @@
 		zoomControl: false,
 		layers: [argenmap, Localidad, Provincia]
 	});
-
-	// // colocar el logo
-	// L.Control.Watermark = L.Control.extend({
-	// 	onAdd: function (map) {
-	// 		var img = L.DomUtil.create('img');
-	// 		img.src = './images/FAO_logo.svg.png';
-	// 		img.style.width = '10vh', // vh para que sea responsive
-	// 			img.style.height = 'auto'; // auto para que sera responsive
-	// 		return img;
-	// 	},
-	// 	onRemove: function (map) { },
-	// });
-	// L.control.watermark = function (opts) {
-	// 	return new L.Control.Watermark(opts);
-	// }
-	// L.control.watermark(position = 'topleft').addTo(map);
 
 	// Insertando buscador
 	var title = L.control();
@@ -478,29 +499,26 @@
 	//map.addControl(panelLayers5);
 
 
+		// Llamada a la función para crear la leyenda
+		createLegendLocCab();
+		createLegendSitios();
+		createLegendNAF();
+		createLegendProyectos();
+		createLegendCenso();
+		createLegendPobOriginaria();
+		createLegendDptoArsenico();
+		createLegendNBI();
+		createLegendAguaRed();
+		createLegendRegionHidro();
+		createLegendSMN();
+		createLegendSuelos();
+		createLegendEcorregiones();
+		// map.addControl(htmlLegend1and6);
+		createLegendAgri();
+		createLegendIso();
 
-	// Llamada a la función para crear la leyenda
-
-
-	createLegendLocCab();
-	createLegendSitios();
-	createLegendNAF();
-	createLegendProyectos();
-	createLegendCenso();
-	createLegendPobOriginaria();
-
-	createLegendDptoArsenico();
-	createLegendNBI();
-	createLegendAguaRed();
-	createLegendRegionHidro();
-	createLegendSMN();
-	createLegendSuelos();
-	createLegendEcorregiones();
-	createLegendAgri();
-	createLegendIso();
-	// map.addControl(htmlLegend1and6);
-
-
+		// Agregar la leyenda al mapa
+		createLeyendModelos();
 		//fullsrcrim
 		var fullscreen = L.control.fullscreen({
 			fullscreenControl: true,
